@@ -1,5 +1,5 @@
 # BloodCraftManageBannedUnits
-This Python script is designed for servers running the **V Rising** game with the **Bloodcraft** mod. The script automates the process of verifying and removing banned familiars from each player's JSON database before the server starts. It reads a list of banned units from the mod's configuration file and compares these with the data in a character JSON file. The script then removes any banned familiars from each player's database, saving the modified files and providing a report on the changes made.
+This Python script is designed for **V Rising** servers using **Bloodcraft** mod. The script automates the process of verifying and removing banned familiars from each player's JSON database before the server starts. It reads a list of banned units from the mod's configuration file and compares these with the data in a character JSON file. The script then removes any banned familiars from each player's database, saving the modified files and providing a report on the changes made.
 
 ## How It Works
 
