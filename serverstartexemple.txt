@@ -1,0 +1,40 @@
+@echo off
+REM Copy this script to your own file and modify to your content. This file can be overwritten when updating.
+set SteamAppId=1604030
+
+REM Specify the Python directory
+set PYTHON_DIR=C:\path\to\your\python
+
+REM Checks that Python is installed in the specified directory
+%PYTHON_DIR%\python --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo "Python is not installed in the specified directory. Attempting to install Python..."
+
+    REM Download the Python installer and install it silently in the specified directory
+    powershell -Command "Start-Process msiexec -ArgumentList '/i https://www.python.org/ftp/python/3.11.0/python-3.11.0-amd64.exe /quiet InstallAllUsers=1 PrependPath=0 TargetDir=%PYTHON_DIR%' -NoNewWindow -Wait"
+
+    REM Checks that the installation was successful
+    %PYTHON_DIR%\python --version >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo "Python installation failed. Aborting server startup."
+        exit /b %errorlevel%
+    ) else (
+        echo "Python installed successfully in %PYTHON_DIR%."
+    )
+) else (
+    echo "Python is already installed in %PYTHON_DIR%."
+)
+
+REM Run the Python script before starting the server
+echo "Running Python script to check and clean banned familiars..."
+%PYTHON_DIR%\python path\to\your\script.py
+
+REM Checks that the Python script was executed successfully
+if %errorlevel% neq 0 (
+    echo "Python script failed. Aborting server startup."
+    exit /b %errorlevel%
+)
+
+echo "Starting V Rising Dedicated Server - PRESS CTRL-C to exit"
+@echo on
+VRisingServer.exe -persistentDataPath .\save-data -serverName "My V Rising Server" -saveName "world1" -logFile ".\logs\VRisingServer.log"
