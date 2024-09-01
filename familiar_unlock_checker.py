@@ -14,11 +14,17 @@ class FamiliarUnlockChecker:
         """Loads the banned units from the configuration file."""
         with open(self.config_file, 'r') as file:
             for line in file:
-                if line.strip().startswith('BannedUnits ='):
-                    return set(
-                        int(unit) for unit in line.split('=')[1].strip().split(',')
-                        if unit
-                    )
+                if 'BannedUnits =' in line:
+                    line = line.strip()
+                    print(f"Found line: {line}")
+                    parts = line.split('=', 1)
+                    if len(parts) > 1:
+                        banned_units = set(
+                            int(unit) for unit in parts[1].strip().split(',')
+                            if unit
+                        )
+                        print(f"Banned units found: {banned_units}")
+                        return banned_units
         print("BannedUnits value not found or is empty")
         return set()
 
